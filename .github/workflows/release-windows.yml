@@ -3,6 +3,7 @@ name: release-windows
 on:
   workflow_dispatch:
   push:
+    branches: [main]
     tags: ["v*"]
 jobs:
   test:
