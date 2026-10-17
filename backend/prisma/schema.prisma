@@ -1,0 +1,130 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Plan {
+  free
+  pro
+  team
+}
+
+model User {
+  id               String        @id @default(uuid())
+  email            String        @unique
+  passwordHash     String
+  role             Role          @default(USER)
+  stripeCustomerId String?       @unique
+  createdAt        DateTime      @default(now())
+  subscription     Subscription?
+  devices          Device[]
+  linkedAccounts   LinkedAccount[]
+  redeemedKeys     LicenseKey[]
+  aiRequests       AiRequest[]
+}
+
+model Subscription {
+  id                   String   @id @default(uuid())
+  userId               String   @unique
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan                 Plan     @default(free)
+  status               String   @default("inactive") // active | past_due | canceled | inactive
+  source               String   @default("stripe")   // stripe | key
+  keyId                String? // ключ, по которому выдан тариф (для блокировки/разблокировки)
+  stripeSubscriptionId String?  @unique
+  currentPeriodEnd     DateTime?
+  updatedAt            DateTime @updatedAt
+}
+
+/// Привязка лицензии к устройствам (ограничение числа установок).
+model Device {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fingerprint String
+  name       String?
+  lastSeenAt DateTime @default(now())
+
+  @@unique([userId, fingerprint])
+  @@index([userId])
+}
+
+/// Twitch-аккаунты, добавленные пользователем в приложение (id генерирует клиент).
+/// Сервер хранит только id и подпись — логины/пароли/токены Twitch к нам не попадают.
+/// Лимит по тарифу проверяется здесь, поэтому правкой клиента его не обойти.
+model LinkedAccount {
+  id        String   @id
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  label     String
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+/// Кампании дропов. Заполняются админом (и/или импортом из публичных источников).
+model Campaign {
+  id              String   @id @default(uuid())
+  game            String
+  name            String
+  startsAt        DateTime
+  endsAt          DateTime
+  requiredMinutes Int
+  channels        String[] // пусто = любой стример игры
+  rewards         String[]
+  published       Boolean  @default(true)
+  createdAt       DateTime @default(now())
+
+  @@index([endsAt])
+}
+
+model AiRequest {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kind      String
+  tokens    Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  actorId   String
+  action    String
+  target    String?
+  meta      Json?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+/// Ключи активации подписки. В базе только HMAC-хэш: утечка БД не раскрывает рабочие ключи.
+/// Открытый текст показывается админу один раз при генерации.
+model LicenseKey {
+  id           String    @id @default(uuid())
+  codeHash     String    @unique
+  hint         String // последние 4 символа — чтобы находить ключ в списке
+  plan         Plan
+  durationDays Int? // null = бессрочно
+  note         String?
+  batch        String?
+  createdById  String
+  createdAt    DateTime  @default(now())
+  redeemedById String?
+  redeemedBy   User?     @relation(fields: [redeemedById], references: [id], onDelete: SetNull)
+  redeemedAt   DateTime?
+  blockedAt    DateTime? // блокировка: ключ не активируется, а уже активированный тариф перестаёт действовать
+
+  @@index([createdAt])
+}

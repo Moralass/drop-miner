@@ -1,0 +1,25 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Drop Miner",
+  "version": "0.4.0",
+  "identifier": "app.dropminer.desktop",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      { "label": "main", "title": "Drop Miner", "width": 1100, "height": 760, "minWidth": 720, "minHeight": 520 }
+    ],
+    "security": {
+      "csp": "default-src 'self'; connect-src 'self' http://localhost:4000 https://api.dropminer.app; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://static-cdn.jtvnw.net"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis", "msi"],
+    "icon": []
+  }
+}

@@ -1,0 +1,42 @@
+# НЕ ПРОВЕРЕНО: workflow написан, но ни разу не запускался. Первый запуск смотрите вручную.
+name: release-windows
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm ci || npm install
+        working-directory: desktop
+      - run: npx tsc --noEmit && npm test
+        working-directory: desktop
+      - run: npm ci || npm install
+        working-directory: backend
+      - run: npx prisma generate && npm test
+        working-directory: backend
+  build:
+    needs: test
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - uses: dtolnay/rust-toolchain@stable
+      - run: npm install
+        working-directory: desktop
+      # Иконки: положите свою в desktop/app-icon.png (1024x1024) перед сборкой.
+      - run: npx tauri icon app-icon.png
+        working-directory: desktop
+      - run: npx tauri build
+        working-directory: desktop
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dropminer-windows
+          path: desktop/src-tauri/target/release/bundle/**/*

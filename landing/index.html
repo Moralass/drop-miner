@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Drop Miner: мониторинг Twitch Drops</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <meta name="description" content="Drop Miner следит за эфирами и кампаниями Twitch Drops, подсказывает, какой аккаунт что смотреть, и ведёт прогресс по каждому профилю. В разработке." />
+  <link rel="canonical" href="https://dropminer.app/" />
+  <meta name="robots" content="index,follow" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Drop Miner: мониторинг Twitch Drops" />
+  <meta property="og:description" content="Drop Miner следит за эфирами и кампаниями Twitch Drops, подсказывает, какой аккаунт что смотреть, и ведёт прогресс по каждому профилю. В разработке." />
+  <meta property="og:url" content="https://dropminer.app/" />
+  <meta property="og:image" content="https://dropminer.app/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,600;0,700;0,800;1,700;1,800&family=Manrope:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Drop Miner","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows","description":"Приложение для мониторинга Twitch Drops на нескольких аккаунтах.","publisher":{"@type":"Organization","name":"SteamNews","url":"https://t.me/steamnewsby"}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+   {"@type":"Question","name":"Drop Miner накручивает просмотры?","acceptedAnswer":{"@type":"Answer","text":"Нет. Приложение открывает настоящие стримы в отдельных окнах, звук выключен, качество минимальное. Имитации трафика нет."}},
+   {"@type":"Question","name":"Нужно ли вводить пароль от Twitch в приложении?","acceptedAnswer":{"@type":"Answer","text":"Нет. Вход выполняется на официальной странице twitch.tv в отдельном окне приложения. Drop Miner не получает ваш пароль."}},
+   {"@type":"Question","name":"Сколько аккаунтов можно подключить?","acceptedAnswer":{"@type":"Answer","text":"Free: 1 аккаунт, Pro: до 5, Team: до 20."}}]}
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav" aria-label="Основное меню">
+      <a class="logo" href="index.html"><img src="logo.png" alt=""><span>DROP <em>MINER</em></span></a>
+      <div class="links">
+        <a href="index.html#features">Возможности</a>
+        <a href="index.html#plans">Тарифы</a>
+        <a href="index.html#faq">Вопросы</a>
+        <a class="btn" href="https://t.me/steamnewsby" target="_blank" rel="noopener">Telegram</a>
+      </div>
+    </nav>
+  </div>
+
+  <header class="wrap hero">
+    <div>
+      <span class="badge">В разработке</span>
+      <h1>DROP <em>MINER</em></h1>
+      <p class="sub">Автоматический мониторинг Twitch Drops</p>
+      <ul class="ticks">
+        <li><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v12H3zM8 20h8M12 16v4"/></svg></i>Следит за эфирами нужных стримеров</li>
+        <li><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h16v10H4zM2 7h20v3H2zM12 7v13"/></svg></i>Показывает актуальные кампании с наградами</li>
+        <li><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 8a4 4 0 1 0-8 0 4 4 0 0 0 8 0zM4 21c0-4 4-6 8-6s8 2 8 6"/></svg></i>Ведёт несколько аккаунтов в отдельных профилях</li>
+        <li><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 21h4"/></svg></i>Сообщает, когда трансляция началась или закончилась</li>
+      </ul>
+      <div class="cta">
+        <a class="btn" href="https://t.me/steamnewsby" target="_blank" rel="noopener">Следить за выходом в Telegram</a>
+        <a class="btn alt" href="#plans">Тарифы</a>
+      </div>
+    </div>
+    <div class="mock" role="img" aria-label="Схематичный вид окна приложения: меню слева, сводка, список кампаний">
+      <div class="bar"><img src="logo.png" alt="">DROP MINER</div>
+      <div class="in">
+        <div class="sb"><span class="on">Главная</span><span>Аккаунты</span><span>Drops</span><span>Мониторинг</span><span>Уведомления</span></div>
+        <div class="mn">
+          <div class="row3"><div class="t">Аккаунты<b>3</b></div><div class="t">В эфире<b class="g">2</b></div><div class="t">Ошибки<b>0</b></div></div>
+          <div class="dr"><span class="c" style="background:linear-gradient(135deg,#0e5a8a,#0a2a55)"></span><span class="tx">Пример игры<small>Награда: пример</small><div class="pr"><i></i></div></span><span class="go">Начать</span></div>
+          <div class="dr"><span class="c" style="background:linear-gradient(135deg,#a8561f,#4a1f0a)"></span><span class="tx">Другая игра<small>Награда: пример</small></span><span class="go">Начать</span></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="features" aria-labelledby="f-title">
+      <h2 id="f-title">Что внутри</h2>
+      <div class="grid">
+        <article class="card"><h3>Каталог кампаний</h3><p>Игры, награды, сроки и подходящие стримеры. Каталог ведёт команда SteamNews.</p></article>
+        <article class="card"><h3>Планировщик</h3><p>Подсказывает, какому аккаунту какую кампанию проходить, чтобы успеть до окончания.</p></article>
+        <article class="card"><h3>Изолированные профили</h3><p>Каждый аккаунт работает в своём окне со своими данными входа. Они не смешиваются.</p></article>
+        <article class="card"><h3>Уведомления</h3><p>Начало и конец трансляций, ошибки проверки и восстановление связи.</p></article>
+      </div>
+    </section>
+
+    <section aria-labelledby="h-title">
+      <h2 id="h-title">Как это работает</h2>
+      <ol class="steps">
+        <li><h3>Добавьте аккаунт</h3><p>Войдите в Twitch на официальной странице в отдельном окне приложения. Пароль приложение не видит.</p></li>
+        <li><h3>Выберите кампанию</h3><p>Приложение покажет, у каких стримеров сейчас эфир, и предложит, что смотреть.</p></li>
+        <li><h3>Смотрите по-настоящему</h3><p>Открывается обычный стрим: звук выключен, качество минимальное. Минуты считаются, пока окно открыто и канал в эфире.</p></li>
+      </ol>
+    </section>
+
+    <section id="plans" aria-labelledby="p-title">
+      <h2 id="p-title">Тарифы</h2>
+      <div class="grid">
+        <div class="card plan"><h3>Free</h3><div class="n">1</div><ul><li>1 аккаунт Twitch</li><li>Каталог кампаний</li><li>1 устройство</li></ul></div>
+        <div class="card plan hl"><h3>Pro</h3><div class="n">5</div><ul><li>До 5 аккаунтов</li><li>ИИ-помощник</li><li>2 устройства</li></ul></div>
+        <div class="card plan"><h3>Team</h3><div class="n">20</div><ul><li>До 20 аккаунтов</li><li>Больше запросов к ИИ</li><li>5 устройств</li></ul></div>
+      </div>
+      <p class="muted" style="margin-top:16px">Подписка активируется ключом на экране «Подписка» в приложении. Цены и покупка ключей: <a href="https://t.me/steamnewsby" target="_blank" rel="noopener">t.me/steamnewsby</a>.</p>
+    </section>
+
+    <section id="faq" aria-labelledby="q-title">
+      <h2 id="q-title">Вопросы</h2>
+      <details><summary>Это накрутка просмотров?</summary><p>Нет. Приложение открывает настоящие стримы в отдельных окнах. Никаких имитаций трафика и запросов в обход плеера.</p></details>
+      <details><summary>Нужно ли вводить пароль от Twitch в приложении?</summary><p>Нет. Вход выполняется на официальной странице twitch.tv в отдельном окне. Drop Miner не получает ваш пароль.</p></details>
+      <details><summary>Гарантирует ли приложение получение наград?</summary><p>Нет. Награды выдаёт Twitch по своим правилам. Drop Miner помогает не пропустить эфиры и распределить время между аккаунтами. Прогресс в приложении считается локально и Twitch им не подтверждается.</p></details>
+      <details><summary>Какие системы поддерживаются?</summary><p>Первая версия готовится для Windows. Другие системы появятся позже.</p></details>
+      <details><summary>Что с Kick?</summary><p>Сейчас Drop Miner работает только с Twitch.</p></details>
+    </section>
+  </main>
+  <footer class="wrap">
+    <div class="links">
+      <a href="terms.html">Условия использования</a>
+      <a href="privacy.html">Политика конфиденциальности</a>
+      <a href="refund.html">Возврат средств</a>
+      <a href="https://t.me/steamnewsby" target="_blank" rel="noopener">SteamNews · t.me/steamnewsby</a>
+    </div>
+    <p>Drop Miner разработан компанией SteamNews. Проект независимый и не связан с Twitch Interactive, Inc. Twitch и его логотип принадлежат их владельцам.</p>
+  </footer>
+</body>
+</html>
