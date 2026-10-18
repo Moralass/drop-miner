@@ -33,8 +33,18 @@ jobs:
       # Иконки: положите свою в desktop/app-icon.png (1024x1024) перед сборкой.
       - run: npx tauri icon app-icon.png
         working-directory: desktop
-      - run: npx tauri build
+      - name: tauri build
+        shell: bash
         working-directory: desktop
+        run: |
+          set +e
+          npx tauri build 2>&1 | tee build.log
+          code=${PIPESTATUS[0]}
+          if [ $code -ne 0 ]; then
+            grep -nE "error|warning: unused|panicked|failed" build.log | head -40 | while IFS= read -r l; do echo "::error::${l:0:400}"; done
+            tail -25 build.log | while IFS= read -r l; do echo "::warning::${l:0:400}"; done
+          fi
+          exit $code
         env:
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
       - uses: actions/upload-artifact@v4
